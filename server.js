@@ -9,6 +9,7 @@ var port = process.env.PORT || 8080;
 // use originWhitelist instead.
 var originBlacklist = parseEnvList(process.env.CORSANYWHERE_BLACKLIST);
 var originWhitelist = parseEnvList(process.env.CORSANYWHERE_WHITELIST);
+
 function parseEnvList(env) {
   if (!env) {
     return [];
@@ -21,7 +22,7 @@ var checkRateLimit = require('./lib/rate-limit')(process.env.CORSANYWHERE_RATELI
 var cors_proxy = require('./lib/cors-anywhere');
 cors_proxy.createServer({
   originBlacklist: originBlacklist,
-  originWhitelist: originWhitelist, //['http://www.jokerstream.com' ,'http://rjh.fun' ,'http://www.rjh217.win/'], 
+  originWhitelist: ['','http://streams.rip','https://streams.rip','http://new.streams.rip'],//originWhitelist, //
   checkRateLimit: checkRateLimit,
   removeHeaders: [
     'cookie',
@@ -34,12 +35,8 @@ cors_proxy.createServer({
   ],
   redirectSameOrigin: true,
   httpProxyOptions: {
-    // Do not add X-Forwarded-For, etc. headers, because Heroku already adds it.
     xfwd: false,
   },
 }).listen(port, host, function() {
   console.log('Running CORS Anywhere on ' + host + ':' + port);
 });
-// server.js
-// where your node app starts
-
